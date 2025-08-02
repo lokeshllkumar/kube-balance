@@ -1,0 +1,8 @@
+apiVersion: kube-balance.io/v1alpha1
+kind: WorkloadProfile
+metadata:
+  name: batch-job
+spec:
+  cpuRequests: "100m"
+  memoryRequests: "128Mi"
+  evictionPriority: 150 # high priority

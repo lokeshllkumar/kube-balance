@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: guaranteed-app
+  labels:
+    app: guaranteed-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: guaranteed-app
+  template:
+    metadata:
+      labels:
+        app: guaranteed-app
+        workload.k8s.io/type: critical-service
+    spec:
+      containers:
+      - name: main
+        image: busybox:1.36
+        command: ["sh", "-c", "echo 'This is a guaranteed QoS app' && sleep 3600"]
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "100m" 
+            memory: "128Mi"

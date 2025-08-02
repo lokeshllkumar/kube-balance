@@ -1,0 +1,81 @@
+# config/crd/bases/workloadprofiles.kube-balance.io.yaml
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.sigs.k8s.io/version: v0.14.0
+  name: workloadprofiles.kube-balance.io
+spec:
+  group: kube-balance.io
+  names:
+    kind: WorkloadProfile
+    listKind: WorkloadProfileList
+    plural: workloadprofiles
+    singular: workloadprofile
+  scope: Cluster 
+  versions:
+  - name: v1alpha1
+    served: true
+    storage: true
+    schema:
+      openAPIV3Schema:
+        description: WorkloadProfile is the Schema for the workloadprofiles API
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object;
+              servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource that the object represents;
+              servers may infer this from the endpoint the client submits requests to;
+              it cannot be updated;
+              it must be in CamelCase
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: WorkloadProfileSpec defines the desired state of WorkloadProfile
+            properties:
+              cpuRequests:
+                description: CPURequests is the recommended CPU requests for this workload
+                  type (e.g. "500m")
+                type: string
+              evictionPriority:
+                description: |-
+                  EvictionPriority defines how likely this workload type is to be evicted;
+                  a higher values mean higher priority for eviction;
+                  0 might indicate a critical service that should almost never be evicted
+                default: 50
+                format: int64
+                minimum: 0
+                type: integer
+              memoryRequests:
+                description: MemoryRequests is the recommended memory requests for this
+                  workload type (e.g. "512Mi").
+                type: string
+            type: object
+          status:
+            description: WorkloadProfileStatus defines the observed state of WorkloadProfile
+            type: object
+        type: object
+    subresources:
+      status: {}
+    additionalPrinterColumns:
+      - name: "CPU Requests"
+        type: "string"
+        jsonPath: ".spec.cpuRequests"
+        description: "Recommended CPU Requests"
+      - name: "Memory Requests"
+        type: "string"
+        jsonPath: ".spec.memoryRequests"
+        description: "Recommended Memory Requests"
+      - name: "Eviction Priority"
+        type: "integer"
+        jsonPath: ".spec.evictionPriority"
+        description: "Priority for eviction (higher is more likely)"
+      - name: "Age"
+        type: "date"
+        jsonPath: ".metadata.creationTimestamp"

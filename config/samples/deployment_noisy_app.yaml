@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: noisy-app
+  labels:
+    app: noisy-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: noisy-app
+  template:
+    metadata:
+      labels:
+        app: noisy-app
+        workload.k8s.io/type: cpu-intensive
+    spec:
+      containers:
+      - name: main
+        image: busybox:1.36
+        command: ["sh", "-c", "while true; do echo 'This is a CPU intensive app'; sleep 5; done"]
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "256Mi"
+          limits:
+            cpu: "400m"
+            memory: "512Mi"

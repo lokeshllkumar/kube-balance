@@ -1,0 +1,8 @@
+apiVersion: kube-balance.io/v1alpha1
+kind: WorkloadProfile
+metadata:
+  name: cpu-intensive
+spec:
+  cpuRequests: "500m"
+  memoryRequests: "512Mi"
+  evictionPriority: 100 # high priority

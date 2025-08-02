@@ -1,0 +1,8 @@
+apiVersion: kube-balance.io/v1alpha1
+kind: WorkloadProfile
+metadata:
+  name: critical-service
+spec:
+  cpuRequests: "1000m"
+  memoryRequests: "1Gi"
+  evictionPriority: 0 # must not be evicted

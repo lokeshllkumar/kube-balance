@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- rbac/role.yaml
+- rbac/role_binding.yaml
+- rbac/service_account.yaml
+- crd/bases/workloadprofiles.kube-balance.io.yaml
+- controller.yaml
+
+images:
+- name: docker.io/lokeshllkumar/kube-balance
+  newName: docker.io/lokeshllkumar/kube-balance
+  newTag: latest
